@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>04-04/05</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+</head>
+<body>
+    <h1>Lec 04</h1>
+
+    <!-- GET -->
+    <div id="get_result"></div>
+    <button onclick="Get()">GET</button>
+
+    <br/><br/>
+
+    <!-- Форма -->
+    <div>
+        <div class="row">
+            <label class="col-2">Идентификатор</label>
+            <input type="number" class="col-3" id="ID" min="0" />
+        </div>
+        <div class="row">
+            <label class="col-2">ФИО</label>
+            <input type="text" class="col-3" id="Name" />
+        </div>
+        <div class="row">
+            <label class="col-2">Дата рождения</label>
+            <input type="date" class="col-3" id="BDay" />
+        </div>
+        <div class="row">
+            <button class="col-2" onclick="Post()">POST</button>
+            <button class="col-2" onclick="Put()">PUT</button>
+            <button class="col-2" onclick="Delete()">DELETE</button>
+        </div>
+    </div>
+
+    <!-- JS -->
+    <script>
+        // POST  
+        function Post() {
+            console.log('POST');
+            if (!ID.value || !Name.value || !BDay.value) {
+                alert('Заполните все поля');
+                return;
+            }
+            fetch('http://localhost:3000/api/db', {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({
+                    id: parseInt(ID.value),
+                    name: Name.value,
+                    bday: BDay.value
+                })
+            })
+            .then(response => response.json())
+            .then(pdata => {
+                console.log('POST.pdata', pdata);
+                alert('Запись добавлена: ' + pdata.id);
+                Get();  
+            })
+            .catch(err => {
+                console.error('Ошибка POST:', err);
+                alert('Ошибка при отправке данных');
+            });
+        }
+
+        // PUT  
+        function Put() {
+            console.log('PUT');
+            if (!ID.value) {
+                alert('Укажите ID для обновления');
+                return;
+            }
+            fetch('http://localhost:3000/api/db', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({
+                    id: parseInt(ID.value),
+                    name: Name.value || '', 
+                    bday: BDay.value || ''
+                })
+            })
+            .then(response => response.json())
+            .then(pdata => {
+                console.log('PUT.pdata', pdata);
+                if (pdata.success) {
+                    alert('Запись обновлена');
+                    Get();
+                } else {
+                    alert('Запись с таким ID не найдена');
+                }
+            })
+            .catch(err => {
+                console.error('Ошибка PUT:', err);
+                alert('Ошибка при обновлении данных');
+            });
+        }
+
+        // DELETE
+        function Delete() {
+            console.log('DELETE');
+            const id = ID.value;
+            if (!id) {
+                alert('Укажите ID для удаления');
+                return;
+            }
+           fetch('http://localhost:3000/api/db', {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify({
+                id: parseInt(id)
+            })
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(pdata => {
+            console.log('DELETE.pdata', pdata);
+            if (pdata.id) {
+                alert('Запись удалена: ' + pdata.id);
+                Get(); 
+            } else {
+                alert('Запись с таким ID не найдена');
+            }
+        })
+        .catch(err => {
+            console.error('Ошибка DELETE:', err);
+            alert('Ошибка при удалении данных');
+        });
+        }
+        
+
+        // GET
+        function Get() {
+            console.log('GET');
+            fetch('http://localhost:3000/api/db', {
+                method: 'GET',
+                mode: 'no-cors',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                }
+            })
+            .then(response => response.json())
+            .then(pdata => {
+                console.log('pdata', pdata);
+                get_result.innerHTML = '';
+                if (Array.isArray(pdata)) {
+                    pdata.forEach(el => {
+                        get_result.innerHTML += (el.id + '. ' + el.name + ' — ' + el.bday + '<br/>');
+                    });
+                } else {
+                    get_result.innerHTML = '<span style="color:red">Ошибка: ожидается массив</span>';
+                }
+            })
+            .catch(err => {
+                console.error('Ошибка GET:', err);
+                get_result.innerHTML = '<span style="color:red">Ошибка загрузки данных</span>';
+            });
+        }
+    </script>
+
+</body>
+</html>

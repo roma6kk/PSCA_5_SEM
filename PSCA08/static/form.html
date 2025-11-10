@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"><title>Form</title></head>
+<body>
+    <h2>Форма для задания 19</h2>
+    <form action="/formparameter" method="POST">
+        <p>Text: <input type="text" name="text_field"></p>
+        <p>Number: <input type="number" name="number_field"></p>
+        <p>Date: <input type="date" name="date_field"></p>
+        <p>Checkbox: 
+            <input type="checkbox" name="checkbox1" value="on1"> Opt1
+            <input type="checkbox" name="checkbox2" value="on2"> Opt2
+        </p>
+        <p>Radio:
+            <input type="radio" name="radio_group" value="radio1"> R1
+            <input type="radio" name="radio_group" value="radio2"> R2
+        </p>
+        <p>Textarea:<br><textarea name="textarea_field" rows="4" cols="30"></textarea></p>
+        <p>
+            <input type="submit" name="action" value="save">
+            <input type="submit" name="action" value="delete">
+        </p>
+    </form>
+</body>
+</html>

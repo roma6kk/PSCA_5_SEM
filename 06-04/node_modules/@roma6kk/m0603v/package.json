@@ -1,0 +1,15 @@
+{
+  "dependencies": {
+    "nodemailer": "^7.0.10"
+  },
+  "name": "@roma6kk/m0603v",
+  "version": "2.0.0",
+  "main": "m0603.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}

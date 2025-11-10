@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width"/>
+        <title>index</title>
+        <link rel="stylesheet" href="css/07-01.css">
+    </head>
+    <body onload="set_json(); set_xml();">
+        <script src="js/07-01.js"></script>
+        <img src="png/dog.png"></img>
+        <video src="video/antoha.mp4" controls></video>
+        <a href="doc/Lab07.docx">Скачать документ</a>
+        <h3 id="jsonplace">
+        </h3>
+        <h3 id="xmlplace">
+
+        </h3>
+        <script>
+            function set_json()
+            {
+                fetch("/json/person.json", {
+                    method: 'GET',
+                    headers: {
+                    'Accept': 'application/json'
+                }
+                })
+                .then(resp => resp.json())
+                .then(data => {document.getElementById("jsonplace").innerHTML = JSON.stringify(data)})
+                .catch(e => console.log(e));
+            }
+            function set_xml()
+            {
+                fetch("/xml/person.xml", {
+                    method: "GET",
+                    headers: {
+                        "Accept": "application/xml"
+                    }
+                })
+                .then(resp => {return resp.text()})
+                .then(text => document.getElementById("xmlplace").textContent = text)
+                .catch(e => console.log(e));
+            }
+        </script>
+    </body>
+</html>

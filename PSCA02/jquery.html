@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>jQuery Ajax Example</title>
+</head>
+<body>
+    <h1>ФИО студента (jQuery):</h1>
+    <p id="student-name"></p>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+    <script>
+        $.ajax({
+            url: '/api/name',
+            method: 'GET',
+            success: function(data) {
+                $('#student-name').text(data);
+            }
+        });
+    </script>
+</body>
+</html>

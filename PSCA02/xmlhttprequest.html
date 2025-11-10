@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>ФИО студента</title>
+</head>
+<body>
+    <h1>ФИО студента:</h1>
+    <p id="student-name"></p>
+        <select id="count-select" onchange="fetchNameN()">
+        <option value="0">— Выберите —</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+    </select>
+
+    <h2>ФИО студента:</h2>
+    <ul id="names-list"></ul>
+
+    <script>
+        const xhr = new XMLHttpRequest();
+        xhr.open('GET', '/api/name');
+        xhr.onload = () => {
+            document.getElementById('student-name').textContent = xhr.responseText;
+        };
+        xhr.send();
+
+        function fetchNameN(){
+            const count = parseInt(document.getElementById('count-select').value);
+            const list = document.getElementById('names-list');
+            list.innerHTML = '';
+            for( let i = 0; i < count; i++)
+        {
+            const xhr1 = new XMLHttpRequest();
+            xhr1.open('GET', '/api/name');
+            xhr1.onload = () => {
+                document.getElementById('student-name').textContent = xhr1.responseText;
+                const li = document.createElement('li');
+                li.textContent = xhr1.responseText;
+                li.dataset.index = i;
+                list.appendChild(li);
+            };
+            xhr1.send();
+        }
+        }
+    </script>
+</body>
+</html>

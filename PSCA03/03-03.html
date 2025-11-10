@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>fact</title>
+
+</head>
+<body>
+    <h2>Lab 03</h2>
+    <div id="result"></div>
+    <script>
+        result.innerHTML = '';
+        let n = 0;
+        const d = Date.now();
+        for(var k = 1; k < 21; k++){
+            fetch(`http://localhost:3000/fact?k=${k}`, {
+                method: 'GET',
+                headers: {'Content-Type': 'application/json', 'Accept': 'application/json'}
+            })
+            .then(response => {return response.json();})
+            .then((pdata) => {
+                result.innerHTML += (n++) + '.Результат: ' + (Date.now()-d) + '-' + pdata.k + '/' + pdata.fact + '<br/>' ;
+            });
+        }
+        </script>
+</body>
+</html>
