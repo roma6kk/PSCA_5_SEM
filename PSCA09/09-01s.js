@@ -183,8 +183,9 @@ http.createServer((req,res) => {
 
     else if (url.parse(req.url).pathname.startsWith('/getbmp') && req.method === 'GET') {
 
-        const filepath = url.parse(req.url).pathname.split('/')[1];
-
+        const filename = url.parse(req.url).pathname.split('/').pop(); // 'dog.png'
+        const filepath = `./static/${filename}`;
+        
         if (!fs.existsSync(filepath)) {
             res.writeHead(404, { 'Content-Type': 'text/plain' });
             return res.end('File not found');

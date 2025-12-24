@@ -99,7 +99,7 @@ let handler = (req, res) => {
             fs.readdir('./static', (err, files) => {
                 if (err) {
                     res.writeHead(500, {
-                        'Content-Type': 'text/plain',
+                        'Content-Type': 'text/plain;charset=utf-8',
                         'X-static-files-count': '0'
                     });
                     return res.end('Error reading static directory');
@@ -111,7 +111,7 @@ let handler = (req, res) => {
                     'Content-Type': 'text/plain',
                     'X-static-files-count': fileCount.toString()
                 });
-                res.end(`Количество файлов ${fileCount}`); 
+                res.end(`Files count: ${fileCount}`); 
             });  
         }
        else if (p.pathname.startsWith('/files/')) {

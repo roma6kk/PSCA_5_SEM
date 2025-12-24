@@ -47,6 +47,12 @@ DHCP - Dynamic Host Configuration Protocol,
 свойство stateless HTTP протокола
 объект location
 порт DHCP
+--------------------------------
+
+
+
+
+
 
 Порты DHCP(IPv4/DHCPv4):
 UDP порт 67 - для DHCP-сервера(прослушивает запросы от клиентов)
