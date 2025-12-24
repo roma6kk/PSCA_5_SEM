@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8"/>
+        <title>
+            10-01
+        </title>
+    </head>
+    <body>
+        <h1>10-01</h1>
+        <ul id="messages">
+
+        </ul>
+        <button onclick="startWS()">startWS</button>
+        <script>
+            let n = 0;
+            function startWS(){
+                let socket = new WebSocket('ws://localhost:4000/wsserver');
+                socket.onopen = ()=>{console.log('socket.onopen');
+                    setInterval(() => {socket.send(`10-01-client: ${++n}`);}, 3000);
+                    setTimeout(() => {socket.close()}, 25000)
+                };
+                socket.onclose = (e) => {console.log(`socket onclose: ${e}`);};
+                socket.onmessage = (e) => {
+                    console.log(`socket.onmessage: ${e.data}`);
+                    const li = document.createElement('li');
+                    li.textContent = e.data;
+                    document.getElementById('messages').appendChild(li);
+                };
+                socket.onerror = function(error) {alert(`Ошибка: ${error.message}`);};
+            }
+        </script>
+    </body>
+</html> 
