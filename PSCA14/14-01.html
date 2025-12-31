@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>SQL Manager</title>
+    <style>
+        body { font-family: sans-serif; max-width: 600px; margin: 20px auto; line-height: 1.6; }
+        .form-group { border: 1px solid #ccc; padding: 10px; margin-bottom: 10px; border-radius: 4px; }
+        input { display: block; margin: 5px 0; width: 100%; box-sizing: border-box; padding: 5px; }
+        button { cursor: pointer; padding: 5px 15px; margin-right: 5px; }
+        #result { background: #f4f4f4; padding: 10px; white-space: pre-wrap; border: 1px solid #ddd; min-height: 50px; }
+    </style>
+</head>
+<body>
+
+    <h2>Управление кафедрами (PULPIT)</h2>
+
+    <div class="form-group">
+        <input id="pulpit" placeholder="Код кафедры (например, ИСИТ)">
+        <input id="pulpit_name" placeholder="Название кафедры">
+        <input id="faculty" placeholder="Код факультета">
+        
+        <button onclick="doGet()">Получить все</button>
+        <button onclick="doPost()">Добавить</button>
+        <button onclick="doPut()">Обновить</button>
+        <button onclick="doDelete()">Удалить по коду</button>
+    </div>
+
+    <strong>Результат:</strong>
+    <pre id="result">Здесь будет ответ сервера...</pre>
+
+    <script>
+        const API_URL = 'http://localhost:5000/api/pulpits';
+        const out = document.getElementById('result');
+
+        const show = (data) => out.textContent = JSON.stringify(data, null, 2);
+
+        async function doGet() {
+            const res = await fetch(API_URL);
+            show(await res.json());
+        }
+
+        async function doPost() {
+            const body = {
+                pulpit: document.getElementById('pulpit').value,
+                pulpit_name: document.getElementById('pulpit_name').value,
+                faculty: document.getElementById('faculty').value
+            };
+            const res = await fetch(API_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(body)
+            });
+            show(await res.json());
+        }
+
+        async function doPut() {
+            const body = {
+                pulpit: document.getElementById('pulpit').value,
+                pulpit_name: document.getElementById('pulpit_name').value,
+                faculty: document.getElementById('faculty').value
+            };
+            const res = await fetch(API_URL, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(body)
+            });
+            show(await res.json());
+        }
+
+        async function doDelete() {
+            const id = document.getElementById('pulpit').value;
+            if (!id) return alert('Введите код в поле "Код кафедры"');
+            
+            const res = await fetch(`${API_URL}/${encodeURIComponent(id)}`, { 
+                method: 'DELETE' 
+            });
+            show(await res.json());
+        }
+    </script>
+</body>
+</html>
