@@ -92,7 +92,7 @@ function initializeDatabase() {
 }
 
 function requestHandler(req, res) {
-  const parsedUrl = url.parse(req.url, true);
+  const parsedUrl = url.parse(decodeURI(req.url), true);
   const pathname = parsedUrl.pathname;
   const method = req.method;
 
